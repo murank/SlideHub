@@ -36,7 +36,6 @@ class User < ActiveRecord::Base
   self.table_name = 'users'
   validates :display_name, presence: true
   validates :display_name, length: { maximum: 32 }
-  validates :biography, presence: true
   validates :biography, length: { maximum: 1024 }
   validates :username, uniqueness: true, length: { minimum: 3, maximum: 32 }
   VALID_USERNAME_REGEX = /\A[a-zA-Z][0-9A-Za-z\-_.]{1,30}[a-zA-Z0-9]\z/
