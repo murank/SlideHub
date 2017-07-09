@@ -62,7 +62,7 @@ ja:
         comments: "コメント"  #g
         convert_status: "変換状況"  #g
         description: "詳細"  #g
-        downloadable: "ダウンロード可否"  #g
+        downloadable: "ダウンロードを許可"  #g
         download_count: "ダウンロード数"
         embedded_view: "埋め込みビュー"  #g
         extension: "拡張子"  #g
