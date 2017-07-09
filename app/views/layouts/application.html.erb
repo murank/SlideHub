@@ -78,10 +78,12 @@
               <li><a href="/users/index"><i class="fa fa-list-alt"></i>&nbsp;<%= t :my_slides %></a></li>
               <li><a href="/statistics/index"><i class="fa fa-signal"></i>&nbsp;<%= t :my_statistics %></a></li>
               <li><a href="<%= edit_user_registration_path %>"><i class="fa fa-user"></i>&nbsp;<%= t :my_account %></a></li>
+              <% if current_user.admin? %>
               <!-- admin -->
               <li class="divider"></li>
               <li><a href="/admin/dashboards/?<%= Time.now.strftime('%Y%m%d%H%M%S') %>"><i class="fa fa-wrench"></i></span>&nbsp;<%= t :admin_dashboard %></a></li>
               <!-- // admin -->
+              <% end %>
               <li class="divider"></li>
               <li><%= link_to t(:logout), destroy_user_session_path, method: :delete %></li>
 
