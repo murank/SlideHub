@@ -159,7 +159,7 @@ $(document).ready(function() {
 
 <% if command == 'add' %>
   $("form#new_slide :input").change(function(e){
-    if ($('#SlideKey').val() != "" && $('#slide_name').val() != "" && $('#slide_description').val() != "" && $('#slide_category_id').prop("selectedIndex") != 0) {
+    if ($('#SlideKey').val() != "" && $('#slide_name').val() != "" && $('#slide_description').val() != "") {
       $("#save_button").removeAttr("disabled");
     } else {
       $('#save_button').attr("disabled", "disabled");

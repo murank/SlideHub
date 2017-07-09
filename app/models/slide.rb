@@ -11,7 +11,7 @@ require 'securerandom'
 #  name           :string(255)      not null
 #  description    :text(65535)      not null
 #  downloadable   :boolean          default(FALSE), not null
-#  category_id    :integer          not null
+#  category_id    :integer
 #  created_at     :datetime         not null
 #  modified_at    :datetime
 #  object_key     :string(255)      default("")
@@ -32,7 +32,7 @@ class Slide < ActiveRecord::Base
   delegate :username, to: :user, prefix: true
   counter_culture :user
   belongs_to :category
-  delegate :name, to: :category, prefix: true
+  delegate :name, to: :category, prefix: true, allow_nil: true
   has_many :comments, as: :commentable, dependent: :delete_all
   acts_as_commentable :private
   acts_as_taggable
@@ -43,7 +43,6 @@ class Slide < ActiveRecord::Base
   validates :description, length: { maximum: 2048 }
   validates :object_key, presence: true
   validates :object_key, uniqueness: true
-  validates :category_id, presence: true
   # validates :category_id, :presence => true, :inclusion => { :in => Category.all.map(&:id) }
 
   scope :published, -> { where('convert_status = 100') }
