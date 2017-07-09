@@ -17,6 +17,8 @@ else
     config.sqs_url = ENV['OSS_SQS_URL']
     config.use_s3_static_hosting = ENV['OSS_USE_S3_STATIC_HOSTING']
     config.cdn_base_url = ENV['OSS_CDN_BASE_URL']
+    config.s3_endpoint = ENV['OSS_S3_ENDPOINT']
+    config.sqs_endpoint = ENV['OSS_SQS_ENDPOINT']
   end
 end
 

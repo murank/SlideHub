@@ -12,10 +12,15 @@ module SlideHub
           config_accessor :sqs_url
           config_accessor :aws_access_id
           config_accessor :aws_secret_key
+          config_accessor :s3_endpoint
+          config_accessor :sqs_endpoint
+          config_accessor :force_path_style
         end
 
         def self.configure(&block)
           yield config
+
+          @config.force_path_style = !@config.s3_endpoint.blank? && !@config.s3_endpoint.end_with?('.amazonaws.com')
 
           if self.configured?
             Aws.config.update({
@@ -39,6 +44,7 @@ module SlideHub
 
         def self.resource_endpoint
           return @config.cdn_base_url unless @config.cdn_base_url.blank?
+          return "#{@config.s3_endpoint}/#{@config.image_bucket_name}" if @config.force_path_style
 
           url = if @config.use_s3_static_hosting == '1'
                   "http://#{@config.image_bucket_name}"
@@ -51,6 +57,8 @@ module SlideHub
         end
 
         def self.upload_endpoint
+          return "#{@config.s3_endpoint}/#{@config.bucket_name}" if @config.force_path_style
+
           url = if @config.region == 'us-east-1'
                   "https://#{@config.bucket_name}.s3.amazonaws.com"
                 else
@@ -70,7 +78,7 @@ module SlideHub
 
         ## SQS
         def self.sqs
-          @sqs ||= Aws::SQS::Client.new(region: @config.region)
+          @sqs ||= Aws::SQS::Client.new(region: @config.region, endpoint: @config.sqs_endpoint)
         end
 
         def self.send_message(message)
@@ -112,9 +120,17 @@ module SlideHub
 
         ## S3
         #
+        def self.s3_client
+          Aws::S3::Client.new(
+            region: @config.region,
+            endpoint: @config.s3_endpoint,
+            force_path_style: @config.force_path_style
+          )
+        end
+
         def self.upload_files(bucket, files, prefix)
           files.each do |f|
-            Aws::S3::Client.new(region: @config.region).put_object(
+            self.s3_client().put_object(
               bucket: bucket,
               key: "#{prefix}/#{File.basename(f)}",
               body: File.read(f),
@@ -125,7 +141,7 @@ module SlideHub
         end
 
         def self.get_file_list(bucket, prefix)
-          resp = Aws::S3::Client.new(region: @config.region).list_objects({
+          resp = self.s3_client().list_objects({
             bucket: bucket,
             max_keys: 1000,
             prefix: prefix,
@@ -138,7 +154,7 @@ module SlideHub
         end
 
         def self.save_file(bucket, key, destination)
-          Aws::S3::Client.new(region: @config.region).get_object(
+          self.s3_client().get_object(
             response_target: destination,
             bucket: bucket,
             key: key,
@@ -168,7 +184,7 @@ module SlideHub
         end
 
         def self.delete_files(bucket, files)
-          Aws::S3::Client.new(region: @config.region).delete_objects({
+          self.s3_client().delete_objects({
             bucket: bucket,
             delete: {
               objects: files,
@@ -178,7 +194,7 @@ module SlideHub
         end
 
         def self.get_download_url(bucket, key)
-          signer = Aws::S3::Presigner.new(client: Aws::S3::Client.new(region: @config.region))
+          signer = Aws::S3::Presigner.new(client: self.s3_client())
           url = signer.presigned_url(:get_object, bucket: bucket, key: key)
           url
         end
