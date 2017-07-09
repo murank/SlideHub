@@ -10,7 +10,7 @@ module SlideUtil
     # @TODO: handle response code
     require 'open-uri'
     data = open(url).read
-    send_data data, disposition: 'attachment', filename: "#{@slide.object_key}#{@slide.extension}"
+    send_data data, disposition: 'attachment', filename: "#{@slide.name}#{@slide.extension}"
   end
 
   def slide_position
