@@ -276,11 +276,12 @@ _::-webkit-full-page-media, _:future, :root .bx-wrapper .bx-viewport {
   -ms-transform: scale(1.2) rotate(-7deg);
   -o-transform: scale(1.2) rotate(-7deg);
   transform: scale(1.2) rotate(-7deg);*/
-  -webkit-transform: scale(1.2);
-  -moz-transform: scale(1.2);
-  -ms-transform: scale(1.2) ;
-  -o-transform: scale(1.2);
-  transform: scale(1.2);
+  -webkit-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
+  -webkit-transform-origin: center center;
+  -ms-transform-origin: center center;
+  transform-origin: center center;
 }
 
 .slidehub_body .slidecard {
