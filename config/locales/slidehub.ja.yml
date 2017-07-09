@@ -53,6 +53,7 @@ ja:
   slides_by_user: "'%{user}'さんが投稿したスライド"
   slide_list: "スライド一覧"
   speaker_details: "スピーカー詳細"
+  tag_help: "複数のタグを指定する場合はカンマで区切ってください"
   top_page: "トップページ"
   transcripts: "Transcript"
   user_list: "ユーザー一覧"

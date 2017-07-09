@@ -110,6 +110,7 @@
     <div class="col-sm-10">
       <%= f.text_field :tag_list, :value => @slide.tag_list.join(','), :class => 'form-control' %>
       <%= f.error_span(:tag_list) %>
+      <p class="help-block"><%= t('tag_help') %></p>
     </div>
   </div>
   <%= f.submit nil, :id => 'save_button', :class => 'btn btn-primary' %>

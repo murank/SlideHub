@@ -47,6 +47,7 @@ en:
   slides_by_user: "Slides posted by '%{user}'"
   slide_List: "Slide List"
   speaker_details: "Speaker Details"
+  tag_help: "Separate each tags with comma."
   top_page: "Top Page"
   transcripts: "Transcript"
   user_list: "User List"
