@@ -11,9 +11,15 @@ if CloudConfig.service_name == 'aws'
     }
   end
   Paperclip::Attachment.default_options[:storage] = :s3
+  Paperclip::Attachment.default_options[:s3_protocol] = SlideHub::Cloud::Engine::AWS.s3_protocol
   Paperclip::Attachment.default_options[:s3_host_name] = SlideHub::Cloud::Engine::AWS.s3_host_name
   Paperclip::Attachment.default_options[:s3_region] = SlideHub::Cloud::Engine::AWS.config.region
   Paperclip::Attachment.default_options[:s3_credentials] = cred
+  Paperclip::Attachment.default_options[:s3_options] = {
+    endpoint: SlideHub::Cloud::Engine::AWS.config.s3_endpoint,
+    force_path_style: SlideHub::Cloud::Engine::AWS.config.force_path_style
+  } unless SlideHub::Cloud::Engine::AWS.config.s3_endpoint.blank?
+
 end
 
 if CloudConfig.service_name == 'azure'

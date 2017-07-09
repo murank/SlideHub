@@ -68,12 +68,18 @@ module SlideHub
         end
 
         def self.s3_host_name
+          return @config.s3_endpoint.partition('://').last unless @config.s3_endpoint.blank?
+
           s3_host_name = if @config.region == 'us-east-1'
                            's3.amazonaws.com'
                          else
                            "s3-#{@config.region}.amazonaws.com"
                          end
           s3_host_name
+        end
+
+        def self.s3_protocol
+          self.upload_endpoint.partition('://').first
         end
 
         ## SQS

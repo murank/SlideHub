@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   validates :username, format: { with: VALID_USERNAME_REGEX }, exclusion: { in: ReservedWord.list }
   has_many :slides
 
-  has_attached_file :avatar, styles: { medium: '192x192>', thumb: '100x100#' }, default_url: '/avatar/:style/missing.png'
+  has_attached_file :avatar, styles: { medium: '192x192>', thumb: '100x100#' }, default_url: '/avatar/:style/missing.png', validate_media_type: false
   validates_attachment_content_type :avatar, content_type: %r{\Aimage/.*\Z}
 
   def self.username_to_id(username)
