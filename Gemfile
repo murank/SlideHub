@@ -36,10 +36,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use mysql
 gem 'mysql2'
 
-# Use SQLServer
-gem 'activerecord-sqlserver-adapter'
-gem 'tiny_tds'
-
 # Apply bootstrap
 gem 'less-rails'
 
